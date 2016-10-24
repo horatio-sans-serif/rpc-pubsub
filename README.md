@@ -8,14 +8,9 @@ A set of handlers for rpc-over-ws for PUBSUB using Redis' PUBSUB to scale out.
 
     const Redis = require('ioredis')
     const redis = new Redis(process.env.REDIS_URL)
-    const {publish, subscribe, unsubscribe, disconnected}
+    const {publish, subscribe, unsubscribe, disconnected} = require('rpc-pubsub')(redis)
 
-    const {server} = require('rpc-over-ws')({
-      publish,
-      subscribe,
-      unsubscribe
-    })
-
+    const {server} = require('rpc-over-ws')({ publish, subscribe, unsubscribe })
     server.on('client-disconnect', client => disconnected(client))
 
 ## Handlers
