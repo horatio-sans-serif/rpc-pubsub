@@ -11,7 +11,7 @@ module.exports = function configurePUBSUB (redis, options = {}) {
   function sendToLocalSubs(channel, alias, data) {
     const timestamp = _.now() / 1000 | 0
     const toSend = JSON.stringify({ module: 'pubsub', type: 'message', timestamp, channel, alias, data })
-    _.each(localSubs[channel] || {}, socket => socket.send(toSend))
+    _.each(localSubs[channel] || {}, client => client.send(toSend))
   }
 
   function sendToRemoteSubs(channel, alias, data) {
@@ -38,7 +38,7 @@ module.exports = function configurePUBSUB (redis, options = {}) {
         return reject('authentication required')
 
       subRedis.subscribe(channel)
-      _.set(localSubs, `${channel}.${this.clientId}`, socket)
+      _.set(localSubs, `${channel}.${this.clientId}`, this)
       _.set(this, `channels.${channel}`, true)
 
       resolve()
@@ -50,7 +50,7 @@ module.exports = function configurePUBSUB (redis, options = {}) {
       if (!this.clientId || !this.alias)
         return reject('authentication required')
 
-      _.unset(socket.channels, channel)
+      _.unset(this.channels, channel)
       _.unset(localSubs, `${channel}.${this.clientId}`)
 
       if (_.isEmpty(localSubs[channel])) {
