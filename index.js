@@ -10,7 +10,7 @@ module.exports = function configurePUBSUB (redis, options = {}) {
 
   function sendToLocalSubs(channel, alias, data) {
     const timestamp = _.now() / 1000 | 0
-    const toSend = JSON.stringify({ type: 'published', timestamp, channel, alias, data })
+    const toSend = JSON.stringify({ module: 'pubsub', type: 'message', timestamp, channel, alias, data })
     _.each(localSubs[channel] || {}, socket => socket.send(toSend))
   }
 

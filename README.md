@@ -28,11 +28,12 @@ Clients are sent the following JSON when a message is published to a channel
 on which they are subscribed.
 
     {
-      "type": "published",
-      "timestamp": int,
+      "module": "pubsub",
+      "type": "message",
       "channel": string,
       "alias": string,
-      "data": any
+      "data": any,
+      "timestamp": int
     }
 
 ## Notes
