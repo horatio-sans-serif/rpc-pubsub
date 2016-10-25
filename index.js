@@ -41,6 +41,8 @@ module.exports = function configurePUBSUB (redis, options = {}) {
       _.set(localSubs, `${channel}.${this.clientId}`, this)
       _.set(this, `channels.${channel}`, true)
 
+      emitter.emit('subscribe', this, channel)
+
       resolve()
     })
   }
@@ -58,6 +60,8 @@ module.exports = function configurePUBSUB (redis, options = {}) {
         subRedis.unsubscribe(channel)
       }
 
+      emitter.emit('unsubscribe', this, channel)
+
       resolve()
     })
   }
@@ -69,6 +73,8 @@ module.exports = function configurePUBSUB (redis, options = {}) {
 
       sendToLocalSubs(channel, this.clientId, data)
       sendToRemoteSubs(channel, this.clientId, data)
+
+      emitter.emit('publish', this, channel, data)
 
       resolve()
     })
