@@ -1,6 +1,6 @@
 {
   "name": "rpc-pubsub",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A set of handlers for rpc-over-ws for PUBSUB using Redis' PUBSUB to scale out.",
   "keywords": [
     "PUBSUB",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "ioredis": "^2.4.0",
-    "rpc-over-ws": "^1.0.0"
+    "rpc-over-ws": "^1.2.1"
   },
   "repository": {
     "type": "git",
